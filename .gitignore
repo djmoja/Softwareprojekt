@@ -1,0 +1,5 @@
+# Google Cloud Keys
+key.json
+*.json
+!package.json
+!tsconfig.json
