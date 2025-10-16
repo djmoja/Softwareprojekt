@@ -1,0 +1,10 @@
+- name: Authenticate to Google Cloud
+  uses: google-github-actions/auth@v1
+  with:
+    credentials_json: ${{ secrets.GOOGLE_CLOUD_SERVICEACCOUNT_KEY }}
+
+- name: Deploy to App Engine
+  run: |
+    gcloud app deploy backend/app.yaml \
+      --quiet \
+      --project=${{ secrets.GCP_PROJECT_ID }}
