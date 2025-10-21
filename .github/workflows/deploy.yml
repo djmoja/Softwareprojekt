@@ -1,10 +1,52 @@
-- name: Authenticate to Google Cloud
-  uses: google-github-actions/auth@v1
-  with:
-    credentials_json: ${{ secrets.GOOGLE_CLOUD_SERVICEACCOUNT_KEY }}
+name: Deploy Fullstack App to Google App Engine
 
-- name: Deploy to App Engine
-  run: |
-    gcloud app deploy backend/app.yaml \
-      --quiet \
-      --project=${{ secrets.GCP_PROJECT_ID }}
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Repository klonen
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      #Node.js installieren
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      #Frontend bauen
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build
+
+      #Backend bauen
+      - name: Build Backend
+        working-directory: ./backend
+        run: |
+          npm install
+          npm run build
+
+      #Google Cloud Authentifizierung
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CLOUD_SERVICEACCOUNT_KEY }}
+
+      #gcloud CLI bereitstellen
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      #Deployment auf App Engine
+      - name: Deploy Backend to Google App Engine
+        working-directory: ./backend
+        run: |
+          gcloud app deploy app.yaml --quiet
