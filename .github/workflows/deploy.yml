@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Abhängigkeiten installieren
+      - name: Install Dependencies
         run: npm install
         working-directory: ./frontend
 
@@ -42,6 +42,7 @@ jobs:
 
       #Google Cloud Authentifizierung
       - name: Authenticate to Google Cloud
+        id: gcloud-auth
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_SERVICEACCOUNT_KEY }}
