@@ -19,12 +19,19 @@ jobs:
         with:
           node-version: '20'
 
-      #Frontend bauen
-      - name: Build Frontend
+      - name: Abhängigkeiten installieren
+        run: npm install
         working-directory: ./frontend
+
+      - name: CI-Dateien prüfen
         run: |
-          npm install
-          npm run build
+          pwd
+          ls -l tsconfig.node.json
+        working-directory: ./frontend
+
+      - name: Build ausführen
+        run: npm run build
+        working-directory: ./frontend
 
       #Backend bauen
       - name: Build Backend
