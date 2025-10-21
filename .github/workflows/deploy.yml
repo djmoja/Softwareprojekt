@@ -13,58 +13,48 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Node.js installieren
+      #Node.js installieren
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      # Frontend Dependencies installieren
-      - name: Install Frontend Dependencies
+      - name: Install Dependencies
         run: npm install
         working-directory: ./frontend
 
-      # CI-Dateien prüfen (optional)
-      - name: Check Frontend CI Files
+      - name: CI-Dateien prüfen
         run: |
           pwd
           ls -l tsconfig.node.json
         working-directory: ./frontend
 
-      # Frontend bauen
       - name: Build Frontend
         run: npm run build
         working-directory: ./frontend
 
-      # Kopieren der Frontend-Builds ins Backend (z. B. für Express-Server)
-      - name: Copy Frontend Build to Backend
-        run: |
-          rm -rf ./backend/public
-          mkdir -p ./backend/public
-          cp -r ./frontend/dist/* ./backend/public/
-        working-directory: .
-
-      # Backend Dependencies installieren & bauen
+      #Backend bauen
       - name: Build Backend
         working-directory: ./backend
         run: |
           npm install
           npm run build
 
-      # Google Cloud Authentifizierung
+      #Google Cloud Authentifizierung
       - name: Authenticate to Google Cloud
+        id: gcloud-auth
         uses: google-github-actions/auth@v2
         with:
           credentials_json: ${{ secrets.GOOGLE_CLOUD_SERVICEACCOUNT_KEY }}
 
-      # Deployment auf App Engine
+      #gcloud CLI bereitstellen
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      #Deployment auf App Engine
       - name: Deploy Backend to Google App Engine
         working-directory: ./backend
         run: |
-          echo "Starting deployment..."
           gcloud app deploy app.yaml --quiet
-          echo "Deployment finished."
-
-      # Optional: Logs prüfen
-      - name: Show recent App Engine logs
-        run: gcloud app logs tail -s default --limit 50
