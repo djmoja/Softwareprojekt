@@ -33,7 +33,7 @@ jobs:
         run: npm run build
         working-directory: ./frontend
       #Frontend für GAE Bereitstellen
-      - name: Move frontend build to backend (oder so)
+      - name: Move Frontend build to Backend
         run: |
           mkdir -p backend/frontend
           cp -r frontend/dist backend/frontend/dist
