@@ -28,11 +28,15 @@ jobs:
           pwd
           ls -l tsconfig.node.json
         working-directory: ./frontend
-
+      #Frontend bauen
       - name: Build Frontend
         run: npm run build
         working-directory: ./frontend
-
+      #Frontend für GAE Bereitstellen
+      - name: Move frontend build to backend (oder so)
+        run: |
+          mkdir -p backend/frontend
+          cp -r frontend/dist backend/frontend/dist
       #Backend bauen
       - name: Build Backend
         working-directory: ./backend
