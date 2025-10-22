@@ -22,7 +22,7 @@ app.use(express.static(join(__dirname, "dist/frontend"))); // frontend liegt in 
 
 // SPA Catch-All für alle Nicht-API-Routen
 app.all(/^(?!\/api).*/, (req, res) => {
-    res.sendFile(join(__dirname, "frontend/index.html"));
+    res.sendFile(join(__dirname, "dist/frontend/index.html"));
 });
 
 // Server starten

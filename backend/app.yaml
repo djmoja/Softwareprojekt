@@ -6,18 +6,18 @@ env: standard
 instance_class: F1
 
 handlers:
-  #API-Endpunkte (alles unter /api) werden vom Backend behandelt
+  # API-Endpunkte (alles unter /api) werden vom Backend behandelt
   - url: /api/.*
     script: auto
 
   # Statische Dateien (Frontend-Build)
   - url: /
-    static_files: ../frontend/dist/index.html
-    upload: ../frontend/dist/index.html
+    static_files: dist/frontend/index.html
+    upload: dist/frontend/index.html
 
   - url: /(.*)
-    static_files: ../frontend/dist/\1
-    upload: ../frontend/dist/(.*)
+    static_files: dist/frontend/\1
+    upload: dist/frontend/(.*)
 
 env_variables:
   NODE_ENV: production

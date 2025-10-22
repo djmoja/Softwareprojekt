@@ -5,10 +5,9 @@
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "build-frontend": "cd ../frontend && npm install && npm run build",
-    "copy-frontend": "mkdir -p dist/frontend && cp -r ../frontend/dist/* dist/frontend/",
+    "copy-frontend": "mkdir -p dist/frontend && cp -r frontend/dist/* dist/frontend/",
     "build-backend": "tsc",
-    "build": "npm run build-frontend && npm run copy-frontend && npm run build-backend",
+    "build": "npm run copy-frontend && npm run build-backend",
     "start": "node dist/index.js",
     "start:local": "npm run clean && npm run build && npm run start",
     "dev": "ts-node --esm src/index.ts"
