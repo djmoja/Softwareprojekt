@@ -18,11 +18,11 @@ app.get("/api/health", (req, res) => {
 });
 
 // Statisches Frontend hosten
-app.use(express.static(join(__dirname, "dist/frontend"))); // frontend liegt in dist/frontend
+app.use(express.static(join(__dirname, "frontend"))); // frontend liegt in dist/frontend
 
 // SPA Catch-All für alle Nicht-API-Routen
 app.all(/^(?!\/api).*/, (req, res) => {
-    res.sendFile(join(__dirname, "dist/frontend/index.html"));
+    res.sendFile(join(__dirname, "frontend/index.html"));
 });
 
 // Server starten
