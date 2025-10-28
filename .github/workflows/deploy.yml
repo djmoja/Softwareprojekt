@@ -42,8 +42,8 @@ jobs:
       # Frontend-Build in Backend dist kopieren
       - name: Move frontend build into backend dist
         run: |
-          mkdir -p backend/dist/frontend
-          cp -r frontend/dist/* backend/dist/frontend/
+          mkdir -p backend/dist
+          cp -r frontend/dist/* backend/dist/
 
       # Google Cloud Authentifizierung
       - name: Authenticate to Google Cloud

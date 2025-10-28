@@ -2,22 +2,17 @@ runtime: nodejs20
 entrypoint: npm start
 
 env: standard
-
 instance_class: F1
 
 handlers:
-  # API-Endpunkte (alles unter /api) werden vom Backend behandelt
+  # API-Endpunkte
   - url: /api/.*
     script: auto
 
-  # Statische Dateien (Frontend-Build)
-  - url: /
-    static_files: dist/frontend/index.html
-    upload: dist/frontend/index.html
-
-  - url: /(.*)
-    static_files: dist/frontend/\1
-    upload: dist/frontend/(.*)
+  # SPA-Routing für Frontend
+  - url: /.*
+    static_files: dist/index.html
+    upload: dist/index.html
 
 env_variables:
   NODE_ENV: production
