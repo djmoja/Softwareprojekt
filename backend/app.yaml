@@ -9,10 +9,15 @@ handlers:
   - url: /api/.*
     script: auto
 
-  # SPA-Routing für Frontend
+  # Statische Assets (JS, CSS, Bilder)
+  - url: /(.*\.(js|css|png|jpg|svg|ico|json))
+    static_files: public/\1
+    upload: public/(.*\.(js|css|png|jpg|svg|ico|json))
+
+  # SPA-Routing:
   - url: /.*
-    static_files: dist/index.html
-    upload: dist/index.html
+    static_files: public/index.html
+    upload: public/index.html
 
 env_variables:
   NODE_ENV: production
