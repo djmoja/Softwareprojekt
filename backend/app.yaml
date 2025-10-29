@@ -5,19 +5,19 @@ env: standard
 instance_class: F1
 
 handlers:
-  # API-Endpunkte
+  # API-Endpunkte gehen zu Express
   - url: /api/.*
     script: auto
 
-  # Statische Assets (JS, CSS, Bilder)
-  - url: /(.*\.(js|css|png|jpg|svg|ico|json))
+  # Statische Frontend-Dateien
+  - url: /(.*\.(js|css|png|jpg|svg|ico))
     static_files: public/\1
-    upload: public/(.*\.(js|css|png|jpg|svg|ico|json))
+    upload: public/(.*\.(js|css|png|jpg|svg|ico))
+    expiration: "1d"
 
-  # SPA-Routing:
+  # Alle anderen Requests zu Express (SPA-Routing)
   - url: /.*
-    static_files: public/index.html
-    upload: public/index.html
+    script: auto
 
 env_variables:
   NODE_ENV: production

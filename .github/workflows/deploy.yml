@@ -19,28 +19,28 @@ jobs:
 
       # ---------------- Frontend ----------------
       - name: Install Frontend Dependencies
-        run: npm install
+        run: npm ci
         working-directory: ./frontend
 
       - name: Build Frontend
         run: npm run build
         working-directory: ./frontend
 
-      # ---------------- Backend ----------------
-      - name: Install Backend Dependencies
-        run: npm install
-        working-directory: ./backend
-
-      - name: Build Backend (if using TypeScript)
-        run: npm run build
-        working-directory: ./backend
-
-      # Move frontend build into backend/public
-      - name: Copy frontend build to backend/public
+      # Frontend direkt nach backend/public kopieren
+      - name: Copy Frontend to Backend Public
         run: |
           rm -rf backend/public
           mkdir -p backend/public
           cp -r frontend/dist/* backend/public/
+          echo " Frontend copied"
+          ls -la backend/public
+
+      # ---------------- Backend ----------------
+
+
+      - name: Install Backend Dependencies
+        run: npm ci
+        working-directory: ./backend
 
       # ---------------- Google Cloud ----------------
       - name: Authenticate to Google Cloud
@@ -50,9 +50,9 @@ jobs:
 
       - name: Setup gcloud CLI
         uses: google-github-actions/setup-gcloud@v2
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
 
-      - name: Deploy Backend to Google App Engine
+      - name: Deploy to Google App Engine
         working-directory: ./backend
-        run: gcloud app deploy app.yaml --quiet
+        run: |
+          echo " Deploying to App Engine..."
+          gcloud app deploy app.yaml --quiet --project=${{ secrets.GCP_PROJECT_ID }}
